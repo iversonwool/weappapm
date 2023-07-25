@@ -1,5 +1,8 @@
 // 监控setData 的性能
 
+import { lazyReportCache } from "./report";
+import { getPageURL } from "./utils";
+
 // 重写 Page
 const OriginPage = Page;
 export function pageProxy() {
@@ -10,7 +13,14 @@ export function pageProxy() {
       this.setUpdatePerformanceListener({ withDataPaths: false /* 设为false 不浪费资源*/ }, (res) => {
         const { updateStartTimestamp, updateEndTimestamp } = res;
         const cost = updateEndTimestamp - updateStartTimestamp;
-        console.log(cost);
+        lazyReportCache({
+          type: 'performance',
+          subType: 'setData',
+          startTime: Date.now(),
+          timestamp: new Date().getTime(),
+          duration: cost,
+          pageURL: getPageURL()
+        })
       });
       return originalOnReady.call(this);
     }
@@ -31,7 +41,14 @@ export function componentProxy() {
         this.setUpdatePerformanceListener({ withDataPaths: false }, (res) => {
           const { updateStartTimestamp, updateEndTimestamp } = res;
           const cost = updateEndTimestamp - updateStartTimestamp;
-          console.log('duration', cost);
+          lazyReportCache({
+            type: 'performance',
+            subType: 'setData',
+            startTime: Date.now(),
+            timestamp: new Date().getTime(),
+            duration: cost,
+            pageURL: getPageURL()
+          })
         });
         return originalLifetimesAttacted.call(this);
       }
@@ -40,7 +57,14 @@ export function componentProxy() {
       this.setUpdatePerformanceListener({ withDataPaths: false }, (res) => {
         const { updateStartTimestamp, updateEndTimestamp } = res;
         const cost = updateEndTimestamp - updateStartTimestamp;
-        console.log(cost);
+        lazyReportCache({
+          type: 'performance',
+          subType: 'setData',
+          startTime: Date.now(),
+          timestamp: new Date().getTime(),
+          duration: cost,
+          pageURL: getPageURL()
+        })
       });
       return originalAttached.call(this);
     };

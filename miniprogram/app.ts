@@ -10,7 +10,5 @@ App<IAppOption>({
     // console.log('-data-', data)
     new Monitor();
     // new WeAppMonitor()
-
-    
   },
 })
