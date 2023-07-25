@@ -23,7 +23,7 @@
   },
   "include": [
     "./**/*.ts"
-, "miniprogram/utils/WeMonitor/tools/request.js"  ],
+, "miniprogram/utils/WeMonitor/tools/request.js", "miniprogram/utils/WeMonitor/tools/proxy.js"  ],
   "exclude": [
     "node_modules"
   ]

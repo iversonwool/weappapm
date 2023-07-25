@@ -1,6 +1,6 @@
 import { lazyReportCache } from './report'
 export const originalRequest = wx.request
-
+// 劫持微信的网络请求
 export default function requestProxy() {
   
   wx.request = function (args) {

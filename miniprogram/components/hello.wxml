@@ -1,0 +1,5 @@
+<!--components/hello.wxml-->
+<view>
+<button bind:tap="changeText">change text</button>
+</view>
+

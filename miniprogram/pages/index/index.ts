@@ -6,6 +6,7 @@ const app = getApp<IAppOption>()
 Page({
   data: {
     motto: 'Hello World',
+    a: null,
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -29,23 +30,23 @@ Page({
     //   // console.log(regExp.exec(errorString))
     // })
     //
-    console.error('test error')
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        reject('reject message')
-      }, 1000)
-    })
+    // console.error('test error')
+    // new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     reject('reject message')
+    //   }, 1000)
+    // })
     
     // request
-    wx.request({
-      url: 'https://dftcapp.dfmc.com.cn/ptapi/dftc-portal-service/dfctClueConfig/selectAll',
-      method: 'POST',
-      data: {envType: 1},
-      success() {
-        // console.log('-response-', res);
-      }
-    })
-    console.log(p)
+    // wx.request({
+    //   url: 'https://dftcapp.dfmc.com.cn/ptapi/dftc-portal-service/dfctClueConfig/selectAll',
+    //   method: 'POST',
+    //   data: {envType: 1},
+    //   success() {
+    //     // console.log('-response-', res);
+    //   }
+    // })
+    // console.log(p)
     // @ts-ignore
     if (wx.getUserProfile) {
       this.setData({
@@ -53,4 +54,24 @@ Page({
       })
     }
   },
+
+  // onReady() {
+  //   // onReady 方法里面监听性能
+  //   this.setUpdatePerformanceListener({ withDataPaths: true }, (res: any) => {
+  //     const { updateStartTimestamp, updateEndTimestamp, dataPaths = [] as string[] } = res;
+  //     const cost = updateEndTimestamp - updateStartTimestamp;
+  //     console.log('duration', cost);
+  //   });
+  // },
+  onImgClick() {
+    this.setData({
+      a:{
+        b: [
+          {a: 1}, {b: 3},
+          {c: [{a: 1}, {b: 3},
+            {c: [{}]}]}
+        ]
+      }
+    })
+  }
 })

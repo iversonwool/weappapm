@@ -23,5 +23,10 @@
 
 
 
-  <image src="https://t9.baidu.com/it/u=2558687843,4185653428&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=EE120DC30D430AD21A51C1110300D0D1&sec=1689958800&t=8058996474609a086854fab8957da08f" ></image>
+  <image src="https://t9.baidu.com/it/u=2558687843,4185653428&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=EE120DC30D430AD21A51C1110300D0D1&sec=1689958800&t=8058996474609a086854fab8957da08f" bind:tap="onImgClick"></image>
+
+
+
+
+  <hello></hello>
 </view>

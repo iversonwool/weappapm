@@ -1,5 +1,5 @@
 import { lazyReportCache } from '../tools/report'
-import { getPageURL } from '../tools/utils'
+import LaunchObserver from './launch'
 
 export class PerformanceObserver {
   constructor() {
@@ -9,38 +9,89 @@ export class PerformanceObserver {
   private _initObserver() {
     const performance = wx.getPerformance()
     const observer = performance.createObserver((e) => {
-      if (observer) observer.disconnect()
+      // if (observer) observer.disconnect()
       console.log('-', e.getEntries())
       const entries = e.getEntries()
       entries.forEach((p: any) => {
         if (p.name === 'firstContentfulPaint') {
-          // console.log('FCP')
+          // 页面首次内容绘制(FCP)时间点
           lazyReportCache({
             type: 'performance',
             subType: 'first-screen-paint',
             startTime: p.startTime,
-            pageURL: getPageURL(),
+            pageURL: p.path,
             timestamp: new Date().getTime(),
           })
         } else if (p.name === 'largestContentfulPaint') {
-          // console.log('LCP')
+          // 页面最大内容绘制(LCP)时间点
           lazyReportCache({
             type: 'performance',
             subType: p.name,
-            target: '',
             startTime: p.startTime,
             name: p.name,
-            pageURL: getPageURL(),
+            pageURL: p.path,
             timestamp: new Date().getTime(),
           })
         } else if (p.name === 'firstRender') {
-          // console.log('FR')
+          // 页面首次渲染耗时
           lazyReportCache({
             type: 'performance',
             subType: p.name,
             startTime: p.startTime,
             timestamp: new Date().getTime(),
-            pageURL: getPageURL(),
+            pageURL: p.path,
+            duration: p.duration,
+          })
+        } else if (p.name === 'appLaunch') {
+          // 小程序启动耗时
+          lazyReportCache({
+            type: 'performance',
+            subType: p.name,
+            startTime: p.startTime,
+            timestamp: new Date().getTime(),
+            pageURL: p.path,
+            duration: p.duration
+          })
+        } else if (p.name === 'route') {
+          // 路由处理耗时
+          lazyReportCache({
+            type: 'performance',
+            subType: p.name,
+            entryType: p.entryType,
+            startTime: p.startTime,
+            timestamp: new Date().getTime(),
+            pageURL: p.path,
+            duration: p.duration,
+            referrer: p.referrerPath
+          })
+        } else if (p.name === 'evaluateScript') {
+          // 逻辑层 JS 代码注入耗时
+          lazyReportCache({
+            type: 'performance',
+            subType: p.name,
+            startTime: p.startTime,
+            timestamp: new Date().getTime(),
+            duration: p.duration
+          })
+        } else if (p.name === 'downloadPackage') {
+          // 代码包下载耗时
+          lazyReportCache({
+            type: 'performance',
+            subType: p.name,
+            startTime: p.startTime,
+            timestamp: new Date().getTime(),
+            duration: p.duration
+          })
+        } else if (p.name === 'resourceTiming') {
+          // 视图层资源加载耗时
+          lazyReportCache({
+            type: 'performance',
+            subType: p.name,
+            startTime: p.startTime,
+            timestamp: new Date().getTime(),
+            duration: p.duration,
+            initiatorType: p.initiatorType,// 初始化性能条目的资源类型
+            uri: p.uri // 资源路径
           })
         }
       });
@@ -50,10 +101,13 @@ export class PerformanceObserver {
     observer.observe({ 
       entryTypes: [
         'render',
-        // 'resource', // 是单个页面元素的加载
-        // 不需要的不监听，不浪费资源
-        /*'script', 'navigation', 'loadPackage', */
+        'navigation',
+        'script',
+        'loadPackage',
+        'resource', // 是单个页面元素的加载
       ] 
     })
+
+    new LaunchObserver()
   }
 }

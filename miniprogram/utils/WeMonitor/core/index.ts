@@ -3,6 +3,7 @@ import { BehaviorObserver } from '../behavior/index'
 import { isSupportMonitor } from '../tools/consts';
 import { PerformanceObserver } from '../performance/index'
 import requestProxy from '../tools/request'
+import { pageProxy, componentProxy } from '../tools/proxy'
 import type { MonitorLogOptions } from './options'
 
 let monitorInstance: Monitor | undefined
@@ -40,6 +41,8 @@ class Monitor {
   }
 
   private _addBuiltInObserver() {
+    pageProxy()
+    componentProxy()
     requestProxy()
     new ErrorObserver();
     new BehaviorObserver();

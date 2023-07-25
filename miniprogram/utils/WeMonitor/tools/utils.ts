@@ -77,3 +77,39 @@ export function getPageURL() {
   var url = currentPage?.route || '' //当前页面url
   return url
 }
+
+
+// 判断是否是对象或数组
+function isObject(obj: object) {
+  return typeof obj === 'object' && obj !== null
+}
+// 全相等（深度）
+export function isEqual(obj1: object, obj2: object) {
+  if (!isObject(obj1) || !isObject(obj2)) {
+      // 值类型（注意，参与 equal 的一般不会是函数）
+      return obj1 === obj2
+  }
+  if (obj1 === obj2) {
+      return true
+  }
+  // 两个都是对象或数组，而且不相等
+  // 1. 先取出 obj1 和 obj2 的 keys ，比较个数
+  const obj1Keys = Object.keys(obj1)
+  const obj2Keys = Object.keys(obj2)
+  if (obj1Keys.length !== obj2Keys.length) {
+      return false
+  }
+  // 2. 以 obj1 为基准，和 obj2 一次递归比较
+  for (let key in obj1) {
+      // 比较当前 key 的 val —— 递归！！！
+      const res = isEqual(obj1[key], obj2[key])
+      if (!res) {
+          return false
+      }
+  }
+  // 3. 全相等
+  return true
+}
+// ————————————————
+// 版权声明：本文为CSDN博主「react_in」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/weixin_40957741/article/details/115130590
