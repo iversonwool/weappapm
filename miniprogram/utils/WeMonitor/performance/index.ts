@@ -10,7 +10,7 @@ export class PerformanceObserver {
     const performance = wx.getPerformance()
     const observer = performance.createObserver((e) => {
       // if (observer) observer.disconnect()
-      console.log('-', e.getEntries())
+      // console.log('-', e.getEntries())
       const entries = e.getEntries()
       entries.forEach((p: any) => {
         if (p.name === 'firstContentfulPaint') {
