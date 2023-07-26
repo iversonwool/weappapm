@@ -26,7 +26,7 @@ Component({
   },
   // 低版本方式
   attached() {
-    console.log('data', this.data)
+    // console.log('data', this.data)
   }
   // lifetimes 方式
   // lifetimes: {

@@ -45,7 +45,7 @@ class Monitor {
     componentProxy()
     requestProxy()
     new ErrorObserver();
-    new BehaviorObserver();
+    // new BehaviorObserver();
     new PerformanceObserver();
   }
 

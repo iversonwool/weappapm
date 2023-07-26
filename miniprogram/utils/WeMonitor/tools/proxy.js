@@ -8,6 +8,7 @@ const OriginPage = Page;
 export function pageProxy() {
   Page = function (page) {
     const originalOnReady = page.onReady || function () {} // 页面有可能没有定义onReady 方法
+    const originlOnShow = page.onShow || function () {}
     page.onReady = function () {
       // onReady 方法里面监听性能
       this.setUpdatePerformanceListener({ withDataPaths: false /* 设为false 不浪费资源*/ }, (res) => {
@@ -23,6 +24,19 @@ export function pageProxy() {
         })
       });
       return originalOnReady.call(this);
+    }
+
+    page.onShow = function () {
+      // 处理pv
+      lazyReportCache({
+        type: 'behavior',
+        subType: 'pv',
+        startTime: Date.now(),
+        pageURL: getPageURL(),
+        referrer: '',
+        timestamp: new Date().getTime(),
+      })
+      return originlOnShow.call(this)
     }
     return OriginPage(page);
   }
